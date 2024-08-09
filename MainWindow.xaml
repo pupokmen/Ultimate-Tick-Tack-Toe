@@ -1,0 +1,147 @@
+﻿<Window x:Class="TicTacToe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:UltimateTic_Tac_Toe.MVVM.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:ApplicationViewModel}"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Background="#36393F"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="740" Width="875" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    <Window.Resources>
+        <ResourceDictionary Source="MVVM\Views\ButtonStyle.xaml"/>
+    </Window.Resources>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="GridMenu" Height="30"/>
+            <RowDefinition Height="500"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+
+        <Border Grid.Row="1" CornerRadius="10" 
+                Margin="7" Background="#252525">
+
+
+            <StackPanel Orientation="Vertical">
+
+
+                <Button Name="Start" Content="Начать игру" IsEnabled="False"
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="btnBig_Click"/>
+                <Button Name="Cancel" Content="Завершить" IsEnabled="False"
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Cancel_Click"/>
+                <Button Name="Surr" Content="Сдаться" IsEnabled="False"
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Surr_Click"/>
+                <Button Name="Login" Content="Войти" 
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Login_Click"/>
+                <Button Name="Выйти" Content="Выйти" 
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Выйти_Click"/>
+                <Button Name="Auth" Content="Регистрация" 
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Auth_Click"/>
+                <Button Name="Profile" Content="Профиль" 
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Profile_Click"/>
+
+                <Label Content="Список" Foreground="White" FontSize="20" FontWeight="Bold" Margin="7,20,0,0"/>
+                <Label Content="участников" Foreground="White" FontSize="20" FontWeight="Bold" Margin="7,0,0,0"/>
+
+                <Button Name="Add" Content="Добавить" 
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Add_Click"/>
+                <Button Name="Убрать" Content="Удалить" 
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Убрать_Click"/>
+                <Button Name="Swap" Content="Поменять" IsEnabled="False" 
+                            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="Swap_Click"/>
+
+                <ListBox x:Name="InGameListBox" ItemsSource="{Binding InGameUsers}" SelectedItem="{Binding InGameSelectedUser}"
+                    Background="Transparent" BorderThickness="0" MouseDoubleClick="InGameListBox_MouseDoubleClick">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <TextBlock FontSize="18" Text="{Binding Name}" Foreground="White"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+
+            </StackPanel>
+
+        </Border>
+
+        <Border Grid.Row="2" Grid.RowSpan="2" CornerRadius="10" 
+            Margin="7" Background="#252525">
+
+            <ListBox x:Name="LobbyListBox" Grid.Column="0" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}"
+                Background="Transparent" BorderThickness="0" MouseDoubleClick="LobbyListBox_MouseDoubleClick"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <TextBlock FontSize="18" Text="{Binding Name}" Foreground="White"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Border>
+
+        <Grid HorizontalAlignment="Stretch" Grid.ColumnSpan="2" 
+              Background="#252525" MouseDown="Grid_MouseDown">
+            <Label Content="Стратегические крестики-нолики"
+                   Foreground="Gray"
+                   FontWeight="SemiBold"
+                   FontSize="14"/>
+
+            <StackPanel HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+
+                <Button Style="{x:Null}"
+                        Width="25" Height="25"
+                        Content="🗕"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="Gray"
+                        FontSize="14"
+                        Margin="0,0,0,5"
+                        Click="ButtonMinimize_Click"/>
+
+                <Button Style="{x:Null}"
+                        Width="25" Height="25"
+                        Content="▢"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="Gray"
+                        FontSize="14"
+                        Click="ButtonMaximize_Click"/>
+
+                <Button Style="{x:Null}"
+                        Width="25" Height="25"
+                        Content="✕"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="Gray"
+                        FontSize="14"
+                        Click="ButtonClose_Click"/>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="grdGrid" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="#36393F"/>
+
+        <Border Margin="7" CornerRadius="10" Grid.Row="3" Grid.Column="2" Background="#252525">
+            <Label Content="{Binding GameInfo}" Margin="15,0,0,0" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="White"/>
+        </Border>
+    </Grid>
+</Window>
